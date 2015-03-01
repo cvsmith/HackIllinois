@@ -41,6 +41,9 @@ def sms():
             sleep(1)
         elif "dance" in word:
             ser.write('4')
+            resp = twilio.twiml.Response()
+            resp.message("Danced!")
+            return str(resp)
             sleep(1)
         else:
             # Bad command
@@ -50,12 +53,12 @@ def sms():
     # Good command
     resp = twilio.twiml.Response()
     if len(wordsList) > 1: resp.message("Moved around!")
-    elif len(wordsList) == 1: resp.message("Moved %s!" % body)
+    elif len(wordsList) == 1: resp.message("Moved %s!" % body.strip())
     return str(resp)
 
 @app.route("/email", methods=['GET', 'POST'])
 def email():
-    #ser = serial.Serial('COM6', 9600)
+    ser = serial.Serial('COM6', 9600)
     data = request.data
     dataDict = json.loads(data)
     body = dataDict['Subject']
@@ -63,6 +66,22 @@ def email():
     wordsList = body.split()
     print str(wordsList)
     sleep(2)
+    for word in wordsList:
+        if "forward" in word:
+            ser.write('0')
+            sleep(1)
+        elif "backward" in word:
+            ser.write('1')
+            sleep(1)
+        elif "left" in word:
+            ser.write('2')
+            sleep(1)
+        elif "right" in word:
+            ser.write('3')
+            sleep(1)
+        elif "dance" in word:
+            ser.write('4')
+            sleep(1)
     return body
 
 if __name__ == "__main__":
