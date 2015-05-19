@@ -8,8 +8,6 @@ import string
 from time import sleep
  
 app = Flask(__name__)
- 
-#mailjet_api = mailjet.Api(api_key='c66041761c6774515f8abcfbd50b5ed7', secret_key='22e83961c3180563dc1b7083c121a310')
 
 @app.route("/", methods=['GET', 'POST'])
 def hello_monkey():
